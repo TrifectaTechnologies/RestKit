@@ -347,12 +347,11 @@ static RKManagedObjectStore *defaultObjectStore = nil;
         }
     }
     
-    /* Theoretically enables hardware encryption of CoreData db... 
-     NSDictionary *fileAttributes = [NSDictionary dictionaryWithObject:NSFileProtectionComplete forKey:NSFileProtectionKey];
- ﻿    ﻿if (![[NSFileManager defaultManager] setAttributes:fileAttributes ofItemAtPath:self.pathToStoreFile error:&error]) {
- ﻿    ﻿    ﻿// Handle error
- ﻿    ﻿}
-     */
+    NSDictionary *fileAttributes = [NSDictionary dictionaryWithObject:NSFileProtectionComplete forKey:NSFileProtectionKey];
+    if (![[NSFileManager defaultManager] setAttributes:fileAttributes ofItemAtPath:self.pathToStoreFile error:&error]) {
+        NSLog(@"Unresolved error with store encryption %@, %@", error, [error userInfo]);
+        abort();
+    }
 }
 
 - (void)deletePersistentStoreUsingSeedDatabaseName:(NSString *)seedFile
