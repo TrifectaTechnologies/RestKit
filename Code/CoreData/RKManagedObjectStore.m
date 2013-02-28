@@ -132,7 +132,12 @@ static RKManagedObjectStore *defaultObjectStore = nil;
 
         if (nilOrManagedObjectModel == nil) {
             // NOTE: allBundles permits Core Data setup in unit tests
-            nilOrManagedObjectModel = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
+            // NSArray *allBundles = [NSBundle allBundles];
+            // nilOrManagedObjectModel = [NSManagedObjectModel mergedModelFromBundles:allBundles];
+            
+            NSString *modelPath = [[NSBundle mainBundle] pathForResource:@"SunGardConnector" ofType:@"momd"];
+            NSURL *modelURL = [NSURL fileURLWithPath:modelPath];
+            nilOrManagedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
         }
         NSMutableArray *allManagedObjectModels = [NSMutableArray arrayWithObject:nilOrManagedObjectModel];
         _managedObjectModel = [[NSManagedObjectModel modelByMergingModels:allManagedObjectModels] retain];
